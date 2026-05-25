@@ -1,0 +1,42 @@
+[
+  {
+    "user_story": "As a customer, I want to log in to my account so that I can see my personal dashboard.",
+    "acceptance_criteria": "- User is on the login page.\n- User inputs valid email 'user@example.com' and password 'securePass123'.\n- User clicks the login button.\n- System redirects user to the dashboard.\n- Welcome message 'Welcome back, User!' is displayed.",
+    "gherkin": "Feature: User Login\n\n  Scenario: Successful Login with Valid Credentials\n    Given the user is on the login page\n    When the user enters email \"user@example.com\" and password \"securePass123\"\n    And the user clicks the login button\n    Then the user should be redirected to the dashboard\n    And the user should see the welcome message \"Welcome back, User!\""
+  },
+  {
+    "user_story": "As an administrator, I want to create a new user profile so that they can access the platform.",
+    "acceptance_criteria": "- Admin is on the User Management tab.\n- Admin clicks 'Add User' button.\n- Admin fills form with name 'Jane Doe', email 'jane@company.com', role 'Editor'.\n- Admin clicks 'Save'.\n- Toast message 'User created successfully' appears.",
+    "gherkin": "Feature: Admin User Management\n\n  Scenario: Create a New User Profile\n    Given the admin is on the User Management tab\n    When the admin clicks the \"Add User\" button\n    And the admin enters name \"Jane Doe\", email \"jane@company.com\", and role \"Editor\"\n    And the admin clicks the \"Save\" button\n    Then the admin should see the toast message \"User created successfully\""
+  },
+  {
+    "user_story": "As an online shopper, I want to add an item to my shopping cart so that I can purchase it later.",
+    "acceptance_criteria": "- Shopper is on the Product Details page for 'Wireless Headphones'.\n- Shopper selects quantity '2'.\n- Shopper clicks 'Add to Cart' button.\n- Cart counter in navigation bar increments by 2.\n- Slide-out cart drawer opens showing the headphones.",
+    "gherkin": "Feature: Shopping Cart Operations\n\n  Scenario: Add Product to Shopping Cart\n    Given the shopper is on the Product Details page for \"Wireless Headphones\"\n    When the shopper selects quantity \"2\"\n    And the shopper clicks the \"Add to Cart\" button\n    Then the cart counter in navigation bar should increment by \"2\"\n    And the shopper should see the slide-out cart drawer open showing the headphones"
+  },
+  {
+    "user_story": "As a premium subscriber, I want to download my monthly invoice so that I can submit it for business expense.",
+    "acceptance_criteria": "- Subscriber is logged in and on the billing settings page.\n- User locates the invoice for May 2026.\n- User clicks the download icon next to May invoice.\n- PDF download starts and file name contains 'Invoice_May_2026.pdf'.",
+    "gherkin": "Feature: Billing and Invoices\n\n  Scenario: Download Monthly Invoice PDF\n    Given the subscriber is logged in and on the billing settings page\n    When the user clicks the download icon next to May invoice\n    Then the PDF download should start\n    And the file name should contain \"Invoice_May_2026.pdf\""
+  },
+  {
+    "user_story": "As a user, I want to reset my password when I forget it so that I can regain access to my account.",
+    "acceptance_criteria": "- User is on the login page.\n- User clicks the 'Forgot Password' link.\n- User enters email 'forgotten@test.com' and clicks 'Send Reset Link'.\n- Success banner 'Reset link sent to your email' is visible.",
+    "gherkin": "Feature: Account Password Recovery\n\n  Scenario: Request Password Reset Link\n    Given the user is on the login page\n    When the user clicks the \"Forgot Password\" link\n    And the user enters email \"forgotten@test.com\"\n    And the user clicks the \"Send Reset Link\" button\n    Then the user should see the success banner \"Reset link sent to your email\""
+  },
+  {
+    "user_story": "As a content creator, I want to publish a draft blog post so that it becomes visible to all visitors.",
+    "acceptance_criteria": "- Creator is on the Blog Dashboard.\n- Creator clicks the 'Drafts' category.\n- Creator clicks edit on draft titled 'My AI Journey'.\n- Creator clicks the 'Publish' button.\n- Status indicator changes from 'Draft' to 'Published'.",
+    "gherkin": "Feature: Blog Content Publishing\n\n  Scenario: Publish a Draft Blog Post\n    Given the creator is on the Blog Dashboard\n    When the creator clicks the \"Drafts\" category\n    And the creator clicks edit on draft titled \"My AI Journey\"\n    And the creator clicks the \"Publish\" button\n    Then the status indicator should change from \"Draft\" to \"Published\""
+  },
+  {
+    "user_story": "As a mobile app developer, I want to search through api documentation so that I can quickly find parameter descriptions.",
+    "acceptance_criteria": "- Developer is on the API docs homepage.\n- Developer enters 'authentication token' into search bar.\n- Developer presses Enter.\n- Search results display link 'OAuth 2.0 Auth Flow'.\n- Clicking the link takes the developer to section with header 'Token Details'.",
+    "gherkin": "Feature: Documentation Search\n\n  Scenario: Search API Documentation for Authentication Token\n    Given the developer is on the API docs homepage\n    When the developer enters \"authentication token\" into the search bar\n    And the developer presses Enter\n    Then the search results should display link \"OAuth 2.0 Auth Flow\"\n    And clicking the link should navigate to the section with header \"Token Details\""
+  },
+  {
+    "user_story": "As a SaaS subscriber, I want to toggle dark mode so that the application UI is easier on my eyes at night.",
+    "acceptance_criteria": "- User is logged in and on the account settings panel.\n- Dark mode switch is off by default.\n- User toggles the Dark Mode switch to on.\n- Body element receives 'dark' CSS class.\n- Background color changes to dark gray.",
+    "gherkin": "Feature: UI Theme Customization\n\n  Scenario: Toggle Dark Mode On\n    Given the user is logged in and on the account settings panel\n    And the dark mode switch is off by default\n    When the user toggles the Dark Mode switch to on\n    Then the body element should receive the class \"dark\"\n    And the background color should change to dark gray"
+  }
+]

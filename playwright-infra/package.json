@@ -1,0 +1,12 @@
+{
+  "name": "playwright-infra",
+  "version": "1.0.0",
+  "description": "Playwright infrastructure for generated tests",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.42.1",
+    "typescript": "^5.3.3"
+  }
+}
