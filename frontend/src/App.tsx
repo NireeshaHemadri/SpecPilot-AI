@@ -1458,11 +1458,10 @@ jobs:
               </div>
 
               <div className="form-group">
-                <label className="form-label">NLP Model Execution Engine</label>
+                <label className="form-label">AI Parsing Engine</label>
                 <select className="form-select" value={mode} onChange={(e) => setMode(e.target.value)}>
-                  <option value="rules">NLP Rule-Based Classifier (Local, High Speed)</option>
-                  <option value="transformer">Local Fine-Tuned Seq2Seq Model (Flan-T5-small)</option>
-                  <option value="openai">OpenAI GPT-4 API (State-of-the-Art Generative)</option>
+                  <option value="rules">NLP Rule-Based Engine (Fast Demo)</option>
+                  <option value="openai">GPT-4 API (Optional)</option>
                 </select>
               </div>
 
