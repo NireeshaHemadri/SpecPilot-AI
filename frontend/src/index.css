@@ -193,6 +193,19 @@ body {
   box-shadow: 0 0 0 3px hsla(var(--primary), 0.15);
 }
 
+/* Ensure premium dark dropdown select option styling */
+.form-select option {
+  background-color: #111827;
+  color: #e5e7eb;
+}
+
+.form-select option:hover,
+.form-select option:focus,
+.form-select option:active {
+  background-color: #7c3aed !important;
+  color: white !important;
+}
+
 .form-textarea {
   min-height: 120px;
   resize: vertical;
