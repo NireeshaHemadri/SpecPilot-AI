@@ -1500,7 +1500,7 @@ jobs:
 
               <textarea 
                 className="form-textarea" 
-                style={{ minHeight: '200px', fontFamily: 'var(--font-mono)', fontSize: '13.5px', background: '#090d16' }}
+                style={{ flex: 1, minHeight: '280px', fontFamily: 'var(--font-mono)', fontSize: '13.5px', background: '#090d16' }}
                 value={editableGherkin} 
                 onChange={(e) => setEditableGherkin(e.target.value)}
                 placeholder="BDD Gherkin output will load here. You can manually edit it before compiling..."
