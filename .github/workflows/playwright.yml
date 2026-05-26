@@ -26,6 +26,14 @@ jobs:
         cd playwright-infra
         npx playwright install --with-deps
         
+    - name: Debug Workspace files
+      run: |
+        pwd
+        ls -la
+        cd playwright-infra
+        ls -la
+        ls -R
+        
     - name: Run Playwright tests
       run: |
         cd playwright-infra

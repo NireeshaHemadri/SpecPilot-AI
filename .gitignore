@@ -19,3 +19,11 @@ __pycache__/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Playwright
+playwright-report/
+test-results/
+playwright-infra/playwright-report/
+playwright-infra/test-results/
+playwright-infra/node_modules/
+
