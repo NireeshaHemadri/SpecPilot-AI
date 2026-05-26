@@ -247,13 +247,15 @@ export default function App() {
   const [exportSteps, setExportSteps] = useState<{ name: string; status: "pending" | "running" | "success" }[]>([]);
   const [datasetSearch, setDatasetSearch] = useState("");
   const [datasetPage, setDatasetPage] = useState(0);
+  const [showTelemetry, setShowTelemetry] = useState(false);
 
   const backendUrl = import.meta.env.VITE_API_URL || "https://testforge-backend-auno.onrender.com";
 
   // Pre-coded demo options for Recruiter click-to-load
   const demos = [
     {
-      title: "User Authentication",
+      title: "Login Workflow Automation",
+      description: "Generate BDD + Playwright login tests",
       story: "As a registered customer, I want to log in to my account so that I can access my private dashboard.",
       criteria: "- User is on the login page\n- User inputs email 'user@example.com' and password 'securePass123'\n- User clicks the 'Login' button\n- Redirect the user to the dashboard page\n- Toast message 'Welcome back, User!' is visible",
       icon: (
@@ -263,7 +265,8 @@ export default function App() {
       )
     },
     {
-      title: "Add Product to Cart",
+      title: "E-Commerce Checkout Validation",
+      description: "AI-generated cart automation scenario",
       story: "As a retail shopper, I want to add headphones to my cart so that I can check out later.",
       criteria: "- Shopper is on product details page for 'Wireless Headphones'\n- Shopper selects quantity '2'\n- Shopper clicks 'Add to Cart' button\n- Navigation cart counter updates to '2'\n- Cart slide drawer opens automatically",
       icon: (
@@ -273,7 +276,8 @@ export default function App() {
       )
     },
     {
-      title: "Admin Registration Flow",
+      title: "Admin User Management Testing",
+      description: "Role-based automation flow",
       story: "As an admin, I want to create a new user profile so that they can access the workspace.",
       criteria: "- Admin is on the user management tab\n- Admin clicks the 'Add User' button\n- Admin enters name 'Jane Doe', email 'jane@company.com', and selects role 'Editor'\n- Admin clicks 'Save'\n- Toast success notification 'User created successfully' appears",
       icon: (
@@ -759,10 +763,10 @@ export default function App() {
       {/* Header */}
       <header className="app-header">
         <div className="brand">
-          <div className="brand-icon">A</div>
+          <div className="brand-icon" style={{ background: 'linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '18px', color: 'white' }}>T</div>
           <div className="brand-title">
             <h1>TestForge AI</h1>
-            <p>AI-powered platform for generating, validating, and exporting BDD + Playwright automation suites</p>
+            <p>AI-powered platform that converts requirements into production-ready BDD and Playwright automation suites</p>
           </div>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
@@ -770,25 +774,25 @@ export default function App() {
             className={`btn ${activeTab === 'showcase' ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setActiveTab('showcase')}
           >
-            📊 Product Overview
+            📊 Interactive Demo
           </button>
           <button 
             className={`btn ${activeTab === 'workspace' ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setActiveTab('workspace')}
           >
-            💻 Workspace IDE
+            💻 Automation Studio
           </button>
           <button 
             className={`btn ${activeTab === 'dataset' ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setActiveTab('dataset')}
           >
-            🗂️ Training Set ({dataset.length})
+            🗂️ Dataset Manager ({dataset.length})
           </button>
           <button 
             className={`btn ${activeTab === 'train' ? 'btn-primary' : 'btn-secondary'}`}
             onClick={() => setActiveTab('train')}
           >
-            ⚙️ AI Training
+            ⚙️ AI Training Studio
           </button>
         </div>
       </header>
@@ -797,170 +801,296 @@ export default function App() {
       {activeTab === 'showcase' && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
           {/* Hero Pitch Banner */}
+          {/* Hero Pitch Banner */}
           <div className="glass-panel" style={{ 
-            background: 'linear-gradient(135deg, rgba(100, 50, 200, 0.25) 0%, rgba(30, 200, 220, 0.15) 100%)',
+            background: 'linear-gradient(135deg, rgba(100, 50, 200, 0.2) 0%, rgba(30, 200, 220, 0.1) 100%)',
             borderLeft: '4px solid hsl(var(--primary))',
-            padding: '32px'
+            padding: '40px',
+            textAlign: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '16px'
           }}>
-            <h2 style={{ fontSize: '28px', fontWeight: 800, marginBottom: '8px', letterSpacing: '-0.5px' }}>
-              Automation Intelligence Dashboard 👋
+            <span className="badge badge-page" style={{ fontSize: '12px', padding: '6px 12px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Introducing TestForge AI</span>
+            <h2 style={{ fontSize: '38px', fontWeight: 800, letterSpacing: '-1px', color: 'white', margin: '8px 0 0 0' }}>
+              AI Test Automation, Reimagined
             </h2>
-            <p style={{ fontSize: '16px', color: 'hsl(var(--text-secondary))', maxWidth: '850px', marginBottom: '24px' }}>
-              This platform demonstrates the end-to-end integration of **NLP models** (T5 transformer / rule-based parsers) with **Playwright automation**. It handles BDD Gherkin compilation, self-healing locators, test telemetry, and generates maintainable Playwright automation suites.
+            <p style={{ fontSize: '18px', color: 'hsl(var(--text-secondary))', maxWidth: '750px', margin: '0 auto', lineHeight: '1.5' }}>
+              AI-powered platform that converts requirements into production-ready BDD and Playwright automation suites.
             </p>
+            <div style={{ fontSize: '14px', color: 'hsl(var(--accent))', fontWeight: 600, letterSpacing: '0.5px', marginTop: '4px' }}>
+              From user stories → AI analysis → BDD scenarios → Playwright automation in minutes.
+            </div>
             
-            <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.05)', padding: '8px 16px', borderRadius: '20px', fontSize: '14px' }}>
-                🟢 <b>Python API</b>: FastAPI Server
+            <div style={{ display: 'flex', gap: '16px', marginTop: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <button 
+                className="btn btn-primary" 
+                onClick={() => setActiveTab('workspace')}
+                style={{ padding: '12px 24px', fontSize: '15px', fontWeight: 600, borderRadius: '8px' }}
+              >
+                Generate Automation Suite 🚀
+              </button>
+              <a 
+                href="#interactive-demo-section" 
+                className="btn btn-secondary"
+                style={{ padding: '12px 24px', fontSize: '15px', fontWeight: 600, borderRadius: '8px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}
+              >
+                Try Interactive Demo 👇
+              </a>
+            </div>
+
+            {/* Trust Markers */}
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', marginTop: '24px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '20px', width: '100%' }}>
+              <span style={{ fontSize: '12px', color: 'hsl(var(--text-muted))', alignSelf: 'center', marginRight: '8px' }}>Powered by industry-grade technologies:</span>
+              <span className="badge badge-generic" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+                🐍 FastAPI
+              </span>
+              <span className="badge badge-generic" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+                🎭 Playwright
+              </span>
+              <span className="badge badge-generic" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+                🤖 OpenAI
+              </span>
+              <span className="badge badge-generic" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+                🤗 HuggingFace
+              </span>
+              <span className="badge badge-generic" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+                🐳 Docker
+              </span>
+              <span className="badge badge-generic" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+                ☁️ AWS
+              </span>
+            </div>
+          </div>
+
+          {/* Clean 3-Step Workflow Panel */}
+          <div style={{ margin: '8px 0 8px 0' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+              <div className="glass-panel hover-lift" style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '24px', position: 'relative', background: 'rgba(255,255,255,0.01)' }}>
+                <span style={{ fontSize: '28px', color: 'hsl(var(--accent))', fontWeight: 800 }}>01</span>
+                <h4 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: 'white' }}>Input Requirements</h4>
+                <p style={{ fontSize: '13px', color: 'hsl(var(--text-muted))', margin: 0 }}>Provide user stories and acceptance criteria in plain natural language.</p>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.05)', padding: '8px 16px', borderRadius: '20px', fontSize: '14px' }}>
-                🟢 <b>NLP Parser</b>: Heuristics & Flan-T5
+              <div className="glass-panel hover-lift" style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '24px', position: 'relative', background: 'rgba(255,255,255,0.01)' }}>
+                <span style={{ fontSize: '28px', color: 'hsl(var(--primary-hover))', fontWeight: 800 }}>02</span>
+                <h4 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: 'white' }}>AI Generates Test Assets</h4>
+                <p style={{ fontSize: '13px', color: 'hsl(var(--text-muted))', margin: 0 }}>NLP parser extracts actions, heals selectors, and compiles modular POM classes.</p>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.05)', padding: '8px 16px', borderRadius: '20px', fontSize: '14px' }}>
-                🟢 <b>Automation</b>: Page Object Model Spec Compiler
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255,255,255,0.05)', padding: '8px 16px', borderRadius: '20px', fontSize: '14px' }}>
-                🟢 <b>CI/CD</b>: GitHub Actions Integrated
+              <div className="glass-panel hover-lift" style={{ display: 'flex', flexDirection: 'column', gap: '8px', padding: '24px', position: 'relative', background: 'rgba(255,255,255,0.01)' }}>
+                <span style={{ fontSize: '28px', color: 'hsl(var(--success))', fontWeight: 800 }}>03</span>
+                <h4 style={{ fontSize: '16px', fontWeight: 700, margin: 0, color: 'white' }}>Export Automation Suite</h4>
+                <p style={{ fontSize: '13px', color: 'hsl(var(--text-muted))', margin: 0 }}>Download fully configured Playwright test suites, POM page files, and CI/CD configs.</p>
               </div>
             </div>
           </div>
 
+          {/* Architecture Strip */}
+          <div className="glass-panel" style={{ 
+            padding: '16px 24px', 
+            background: 'rgba(255,255,255,0.01)', 
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRadius: '12px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '12px',
+            fontSize: '13px',
+            fontWeight: 500
+          }}>
+            <span style={{ color: 'hsl(var(--text-muted))', marginRight: '8px' }}>Pipeline architecture:</span>
+            <span style={{ color: 'white', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '6px' }}>Requirements</span>
+            <span style={{ color: 'hsl(var(--text-muted))' }}>→</span>
+            <span style={{ color: 'hsl(var(--accent))', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '6px' }}>NLP Engine</span>
+            <span style={{ color: 'hsl(var(--text-muted))' }}>→</span>
+            <span style={{ color: 'hsl(var(--primary-hover))', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '6px' }}>BDD Generator</span>
+            <span style={{ color: 'hsl(var(--text-muted))' }}>→</span>
+            <span style={{ color: 'hsl(var(--success))', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '6px' }}>Playwright Compiler</span>
+            <span style={{ color: 'hsl(var(--text-muted))' }}>→</span>
+            <span style={{ color: 'hsl(var(--accent))', background: 'rgba(255,255,255,0.05)', padding: '6px 12px', borderRadius: '6px' }}>CI/CD Export</span>
+          </div>
+
           {/* Quick Demos */}
-          <div>
+          <div id="interactive-demo-section">
             <h3 style={{ fontSize: '18px', fontWeight: 700, marginBottom: '16px' }}>Interactive Click-to-Load Demos</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
-              {demos.map((d, index) => (
-                <div key={index} className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '12px', background: 'rgba(255,255,255,0.02)' }}>
+              {demos.map((d: any, index) => (
+                <div key={index} className="glass-panel hover-lift" style={{ display: 'flex', flexDirection: 'column', gap: '12px', background: 'rgba(255,255,255,0.02)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: 'hsl(var(--primary-hover))' }}>
-                    {d.icon}
-                    <h4 style={{ fontSize: '16px', fontWeight: 700, color: 'white' }}>{d.title}</h4>
+                    <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {d.icon}
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <h4 style={{ fontSize: '16px', fontWeight: 700, color: 'white', margin: 0 }}>{d.title}</h4>
+                      <span style={{ fontSize: '12px', color: 'hsl(var(--accent))', fontWeight: 500 }}>{d.description}</span>
+                    </div>
                   </div>
-                  <p style={{ fontSize: '13px', color: 'hsl(var(--text-muted))', minHeight: '60px' }}>
+                  <p style={{ fontSize: '13px', color: 'hsl(var(--text-secondary))', minHeight: '45px', margin: 0 }}>
                     <b>Story:</b> "{d.story.slice(0, 100)}..."
                   </p>
                   <button 
                     className="btn btn-secondary" 
-                    onClick={() => loadDemo(d)}
-                    style={{ fontSize: '13px', padding: '8px 16px', alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                    onClick={() => {
+                      loadDemo(d);
+                      // Scroll to top or switch tab if needed, loadDemo automatically loads it in IDE.
+                      // Let's add a toast or alert when loaded
+                      showToast(`Loaded "${d.title}" demo into Automation Studio!`);
+                    }}
+                    style={{ fontSize: '13px', padding: '8px 16px', alignSelf: 'flex-start', display: 'inline-flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}
                   >
-                    Load & Compile in IDE ⚡
+                    Generate Automation Suite ⚡
                   </button>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Multi-Model comparison & Telemetry training logs */}
-          <div className="dashboard-grid">
-            {/* Multi-Model Comparison Tradeoffs */}
-            <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, borderBottom: '1px solid hsl(var(--border-subtle))', paddingBottom: '12px' }}>
-                NLP Model Typology Tradeoffs
-              </h3>
-              
-              <div style={{ overflowX: 'auto' }}>
-                <table className="telemetry-table">
-                  <thead>
-                    <tr>
-                      <th>NLP Model</th>
-                      <th>Avg. Latency</th>
-                      <th>Est. Benchmark Accuracy</th>
-                      <th>Cost / Run</th>
-                      <th>Best For</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td style={{ color: 'white', fontWeight: 600 }}>GPT-4 API</td>
-                      <td style={{ color: 'hsl(var(--accent))' }}>~1500ms</td>
-                      <td style={{ color: 'hsl(var(--success))', fontWeight: 'bold' }}>97.4%</td>
-                      <td>~$0.03</td>
-                      <td>Multi-page complex tests</td>
-                    </tr>
-                    <tr>
-                      <td style={{ color: 'white', fontWeight: 600 }}>Flan-T5-Small</td>
-                      <td style={{ color: 'hsl(var(--primary-hover))' }}>~800ms</td>
-                      <td style={{ color: 'hsl(var(--warning))', fontWeight: 'bold' }}>92.4%</td>
-                      <td style={{ color: 'hsl(var(--success))' }}>$0.00</td>
-                      <td>Offline local fine-tuning</td>
-                    </tr>
-                    <tr>
-                      <td style={{ color: 'white', fontWeight: 600 }}>spaCy Heuristics</td>
-                      <td style={{ color: 'hsl(var(--secondary))' }}>~10ms</td>
-                      <td style={{ color: 'hsl(var(--text-muted))' }}>85.0%</td>
-                      <td style={{ color: 'hsl(var(--success))' }}>$0.00</td>
-                      <td>Standard rigid Gherkin</td>
-                    </tr>
-                  </tbody>
-                </table>
+          {/* Why TestForge Section */}
+          <div style={{ margin: '16px 0' }}>
+            <h3 style={{ fontSize: '20px', fontWeight: 800, marginBottom: '20px', textAlign: 'center', color: 'white' }}>Why TestForge?</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+              <div className="glass-panel hover-lift" style={{ padding: '24px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <span style={{ fontSize: '24px', display: 'block' }}>⚡</span>
+                <h4 style={{ fontSize: '16px', fontWeight: 700, color: 'white', margin: 0 }}>AI Requirement Understanding</h4>
+                <p style={{ fontSize: '13px', color: 'hsl(var(--text-secondary))', margin: 0, lineHeight: 1.4 }}>Transforms natural language requirements and user stories into test-ready Gherkin BDD scenarios.</p>
               </div>
-            </div>
-
-            {/* Real Training Metrics Telemetry (Visual SVG Curve & Data Table) */}
-            <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <h3 style={{ fontSize: '18px', fontWeight: 700, borderBottom: '1px solid hsl(var(--border-subtle))', paddingBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>Model Training Telemetry & Validation curves</span>
-                <span style={{ fontSize: '11.5px', color: 'hsl(var(--text-muted))', fontWeight: 'normal' }}>* Demo telemetry simulation</span>
-              </h3>
-              
-              {/* Telemetry loss SVG graph */}
-              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '12px', display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
-                <svg width="340" height="90" style={{ overflow: 'visible' }}>
-                  <line x1="30" y1="10" x2="330" y2="10" stroke="rgba(255,255,255,0.05)" strokeDasharray="3" />
-                  <line x1="30" y1="50" x2="330" y2="50" stroke="rgba(255,255,255,0.05)" strokeDasharray="3" />
-                  
-                  <path 
-                    d={lossPoints} 
-                    fill="none" 
-                    stroke="url(#loss-grad)" 
-                    strokeWidth="3" 
-                    strokeLinecap="round" 
-                  />
-                  
-                  <circle cx="40" cy="30" r="4" fill="hsl(var(--primary-hover))" />
-                  <circle cx="340" cy="110" r="0" /> {/* dummy anchor */}
-                  <circle cx="330" cy="80" r="4" fill="hsl(var(--secondary))" />
-
-                  <defs>
-                    <linearGradient id="loss-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="hsl(var(--primary))" />
-                      <stop offset="100%" stopColor="hsl(var(--secondary))" />
-                    </linearGradient>
-                  </defs>
-
-                  <text x="25" y="34" fill="hsl(var(--text-muted))" fontSize="9" textAnchor="end">2.14</text>
-                  <text x="25" y="84" fill="hsl(var(--text-muted))" fontSize="9" textAnchor="end">0.08</text>
-                  <text x="35" y="105" fill="hsl(var(--text-muted))" fontSize="9">Epoch 1</text>
-                  <text x="330" y="105" fill="hsl(var(--text-muted))" fontSize="9" textAnchor="end">Epoch 5</text>
-                </svg>
+              <div className="glass-panel hover-lift" style={{ padding: '24px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <span style={{ fontSize: '24px', display: 'block' }}>🧠</span>
+                <h4 style={{ fontSize: '16px', fontWeight: 700, color: 'white', margin: 0 }}>Self-Healing Automation</h4>
+                <p style={{ fontSize: '13px', color: 'hsl(var(--text-secondary))', margin: 0, lineHeight: 1.4 }}>Automatically repairs broken element locators and selectors using advanced semantic similarity analyses.</p>
               </div>
-
-              <div style={{ overflowX: 'auto' }}>
-                <table className="telemetry-table" style={{ fontSize: '12px' }}>
-                  <thead>
-                    <tr>
-                      <th>Epoch</th>
-                      <th>Train Loss</th>
-                      <th>Val Loss</th>
-                      <th>Accuracy</th>
-                      <th>Checkpoint</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {trainingLogs.map(l => (
-                      <tr key={l.epoch}>
-                        <td style={{ color: 'white', fontWeight: 600 }}>Epoch {l.epoch}</td>
-                        <td>{l.trainLoss}</td>
-                        <td>{l.valLoss}</td>
-                        <td style={{ color: 'hsl(var(--success))', fontWeight: 600 }}>{l.accuracy}</td>
-                        <td style={{ fontFamily: 'var(--font-mono)' }}>{l.checkpoint}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="glass-panel hover-lift" style={{ padding: '24px', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255, 255, 255, 0.05)', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <span style={{ fontSize: '24px', display: 'block' }}>🚀</span>
+                <h4 style={{ fontSize: '16px', fontWeight: 700, color: 'white', margin: 0 }}>Export Full Test Suites</h4>
+                <p style={{ fontSize: '13px', color: 'hsl(var(--text-secondary))', margin: 0, lineHeight: 1.4 }}>Download fully configured Playwright suites, POM classes, and CI/CD GitHub action workflows instantly.</p>
               </div>
             </div>
           </div>
+
+          {/* Collapsible Telemetry section to reduce landing density */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center', margin: '8px 0' }}>
+            <button 
+              className="btn btn-secondary" 
+              onClick={() => setShowTelemetry(!showTelemetry)}
+              style={{ padding: '12px 24px', display: 'inline-flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '14px', borderRadius: '8px', fontWeight: 600 }}
+            >
+              {showTelemetry ? "📊 Hide NLP Performance Benchmarks & Curves" : "📊 View NLP Model Performance Benchmarks & Telemetry"}
+            </button>
+          </div>
+
+          {showTelemetry && (
+            <div className="dashboard-grid" style={{ animation: 'fadeIn 0.25s ease-out' }}>
+              {/* Multi-Model Comparison Tradeoffs */}
+              <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 700, borderBottom: '1px solid hsl(var(--border-subtle))', paddingBottom: '12px' }}>
+                  NLP Model Typology Tradeoffs
+                </h3>
+                
+                <div style={{ overflowX: 'auto' }}>
+                  <table className="telemetry-table">
+                    <thead>
+                      <tr>
+                        <th>NLP Model</th>
+                        <th>Avg. Latency</th>
+                        <th>Est. Benchmark Accuracy</th>
+                        <th>Cost / Run</th>
+                        <th>Best For</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style={{ color: 'white', fontWeight: 600 }}>GPT-4 API</td>
+                        <td style={{ color: 'hsl(var(--accent))' }}>~1500ms</td>
+                        <td style={{ color: 'hsl(var(--success))', fontWeight: 'bold' }}>97.4%</td>
+                        <td>~$0.03</td>
+                        <td>Multi-page complex tests</td>
+                      </tr>
+                      <tr>
+                        <td style={{ color: 'white', fontWeight: 600 }}>Flan-T5-Small</td>
+                        <td style={{ color: 'hsl(var(--primary-hover))' }}>~800ms</td>
+                        <td style={{ color: 'hsl(var(--warning))', fontWeight: 'bold' }}>92.4%</td>
+                        <td style={{ color: 'hsl(var(--success))' }}>$0.00</td>
+                        <td>Offline local fine-tuning</td>
+                      </tr>
+                      <tr>
+                        <td style={{ color: 'white', fontWeight: 600 }}>spaCy Heuristics</td>
+                        <td style={{ color: 'hsl(var(--secondary))' }}>~10ms</td>
+                        <td style={{ color: 'hsl(var(--text-muted))' }}>85.0%</td>
+                        <td style={{ color: 'hsl(var(--success))' }}>$0.00</td>
+                        <td>Standard rigid Gherkin</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Real Training Metrics Telemetry (Visual SVG Curve & Data Table) */}
+              <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <h3 style={{ fontSize: '18px', fontWeight: 700, borderBottom: '1px solid hsl(var(--border-subtle))', paddingBottom: '12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>Model Training Telemetry & Validation curves</span>
+                  <span style={{ fontSize: '11.5px', color: 'hsl(var(--text-muted))', fontWeight: 'normal' }}>* Demo telemetry simulation</span>
+                </h3>
+                
+                {/* Telemetry loss SVG graph */}
+                <div style={{ background: 'rgba(0,0,0,0.2)', padding: '12px', borderRadius: '12px', display: 'flex', justifyContent: 'center', marginBottom: '8px' }}>
+                  <svg width="340" height="90" style={{ overflow: 'visible' }}>
+                    <line x1="30" y1="10" x2="330" y2="10" stroke="rgba(255,255,255,0.05)" strokeDasharray="3" />
+                    <line x1="30" y1="50" x2="330" y2="50" stroke="rgba(255,255,255,0.05)" strokeDasharray="3" />
+                    
+                    <path 
+                      d={lossPoints} 
+                      fill="none" 
+                      stroke="url(#loss-grad)" 
+                      strokeWidth="3" 
+                      strokeLinecap="round" 
+                    />
+                    
+                    <circle cx="40" cy="30" r="4" fill="hsl(var(--primary-hover))" />
+                    <circle cx="340" cy="110" r="0" /> {/* dummy anchor */}
+                    <circle cx="330" cy="80" r="4" fill="hsl(var(--secondary))" />
+
+                    <defs>
+                      <linearGradient id="loss-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="hsl(var(--primary))" />
+                        <stop offset="100%" stopColor="hsl(var(--secondary))" />
+                      </linearGradient>
+                    </defs>
+
+                    <text x="25" y="34" fill="hsl(var(--text-muted))" fontSize="9" textAnchor="end">2.14</text>
+                    <text x="25" y="84" fill="hsl(var(--text-muted))" fontSize="9" textAnchor="end">0.08</text>
+                    <text x="35" y="105" fill="hsl(var(--text-muted))" fontSize="9">Epoch 1</text>
+                    <text x="330" y="105" fill="hsl(var(--text-muted))" fontSize="9" textAnchor="end">Epoch 5</text>
+                  </svg>
+                </div>
+
+                <div style={{ overflowX: 'auto' }}>
+                  <table className="telemetry-table" style={{ fontSize: '12px' }}>
+                    <thead>
+                      <tr>
+                        <th>Epoch</th>
+                        <th>Train Loss</th>
+                        <th>Val Loss</th>
+                        <th>Accuracy</th>
+                        <th>Checkpoint</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {trainingLogs.map(l => (
+                        <tr key={l.epoch}>
+                          <td style={{ color: 'white', fontWeight: 600 }}>Epoch {l.epoch}</td>
+                          <td>{l.trainLoss}</td>
+                          <td>{l.valLoss}</td>
+                          <td style={{ color: 'hsl(var(--success))', fontWeight: 600 }}>{l.accuracy}</td>
+                          <td style={{ fontFamily: 'var(--font-mono)' }}>{l.checkpoint}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Playwright Parallel Execution & GitHub Actions CI Grid */}
           <div className="dashboard-grid">
