@@ -175,7 +175,7 @@ body {
   color: hsl(var(--text-muted));
 }
 
-.form-input, .form-textarea, .form-select {
+.form-input, .form-textarea {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid hsl(var(--border-subtle));
   border-radius: var(--radius-md);
@@ -186,11 +186,29 @@ body {
   transition: all var(--transition-fast);
 }
 
+.form-select {
+  background-color: #111827;
+  border: 1px solid hsl(var(--border-subtle));
+  border-radius: var(--radius-md);
+  color: #f3f4f6;
+  font-family: inherit;
+  font-size: 15px;
+  padding: 12px 16px;
+  transition: all var(--transition-fast);
+}
+
 .form-input:focus, .form-textarea:focus, .form-select:focus {
   outline: none;
   border-color: hsl(var(--primary));
-  background: rgba(255, 255, 255, 0.06);
   box-shadow: 0 0 0 3px hsla(var(--primary), 0.15);
+}
+
+.form-input:focus, .form-textarea:focus {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.form-select:focus {
+  background-color: #111827;
 }
 
 /* Ensure premium dark dropdown select option styling */
