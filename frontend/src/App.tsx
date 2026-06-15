@@ -997,7 +997,10 @@ export default function App() {
             {/* Playwright execution simulator */}
             <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 700 }}>Playwright Parallel Runner Logs</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <h3 style={{ fontSize: '18px', fontWeight: 700 }}>Playwright Parallel Runner Logs</h3>
+                  <span style={{ fontSize: '11px', color: 'hsl(var(--text-muted))' }}>* Simulated execution logs for showcase</span>
+                </div>
                 <button 
                   className="btn btn-primary" 
                   onClick={startSimulation}
@@ -1095,7 +1098,10 @@ export default function App() {
             {/* GitHub Actions Integration panel */}
             <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 700 }}>GitHub Actions CI/CD workflow</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <h3 style={{ fontSize: '18px', fontWeight: 700 }}>GitHub Actions CI/CD workflow</h3>
+                  <span style={{ fontSize: '11px', color: 'hsl(var(--text-muted))' }}>* Simulated pipeline output for showcase</span>
+                </div>
                 <div style={{ display: 'flex', gap: '8px' }}>
                   <button 
                     className="btn btn-secondary"
