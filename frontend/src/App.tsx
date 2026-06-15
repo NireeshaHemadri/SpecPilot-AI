@@ -26,10 +26,6 @@ interface DatasetItem {
   gherkin: string;
 }
 
-interface TrainingStatus {
-  status: string;
-  logs: string[];
-}
 
 // Light Syntax Highlighting Heuristics
 export function highlightGherkin(text: string) {
@@ -181,31 +177,6 @@ export default function App() {
     { epoch: 5, trainLoss: "0.0820", valLoss: "0.0750", accuracy: "93.8%", checkpoint: "checkpoint-50" }
   ];
 
-  // Hyperparameters state for AI Training Console
-  const [hyperEpochs, setHyperEpochs] = useState(5);
-  const [hyperBatchSize, setHyperBatchSize] = useState(2);
-  const [hyperLr, setHyperLr] = useState("5e-5");
-  const [hyperOptimizer, setHyperOptimizer] = useState("AdamW");
-  const [hyperModel, setHyperModel] = useState("Flan-T5-Small (80M params)");
-
-  // Interactive Live Training Simulator Logs (Pre-populated on load for visual completion)
-  const completedTrainingLogs = [
-    "🔄 Initializing training runtime on backend uvicorn engine...",
-    "📂 Loading and validating dataset (dataset.json) - 12 examples parsed...",
-    "🧠 Tokenizing prompt inputs and target BDD label mappings...",
-    "🤖 Booting HuggingFace Seq2Seq Trainer (Transformers v4.38)...",
-    "📦 Loaded base model weights: google/flan-t5-small (77M parameters)",
-    "📊 Starting Training Epochs (Batch size = 2, LR = 5e-5)...",
-    "📈 [Epoch 1/5] Loss: 2.1450 - Validation Loss: 1.8540 - Accuracy: 68.2%",
-    "📈 [Epoch 2/5] Loss: 1.1520 - Validation Loss: 0.9850 - Accuracy: 78.5%",
-    "📈 [Epoch 3/5] Loss: 0.4560 - Validation Loss: 0.3920 - Accuracy: 84.9%",
-    "📈 [Epoch 4/5] Loss: 0.1840 - Validation Loss: 0.1620 - Accuracy: 91.4%",
-    "📈 [Epoch 5/5] Loss: 0.0820 - Validation Loss: 0.0750 - Accuracy: 93.8%",
-    "💾 Saving trained checkpoints to directory: /fine_tuned_model/",
-    "🎉 Model fine-tuning completed successfully! Local weight paths loaded."
-  ];
-  const [localTrainingLogs, setLocalTrainingLogs] = useState<string[]>(completedTrainingLogs);
-  const [localTrainingActive, setLocalTrainingActive] = useState(false);
 
   // Playwright Terminal Runner Simulator
   const [simulating, setSimulating] = useState(false);
@@ -234,11 +205,6 @@ export default function App() {
   const [newCriteria, setNewCriteria] = useState("");
   const [newGherkin, setNewGherkin] = useState("");
 
-  // Missing training status state
-  const [training, setTraining] = useState<TrainingStatus | null>({
-    status: "idle",
-    logs: []
-  });
 
   // Simulator Report, Suggestions, Export Modal & Search/Pagination states
   const [showSimReport, setShowSimReport] = useState(false);
@@ -293,7 +259,6 @@ export default function App() {
 
   useEffect(() => {
     fetchDataset();
-    fetchTrainingStatus();
   }, []);
 
   const fetchDataset = async () => {
@@ -310,17 +275,6 @@ export default function App() {
     }
   };
 
-  const fetchTrainingStatus = async () => {
-    try {
-      const res = await fetch(`${backendUrl}/api/train/status`);
-      if (res.ok) {
-        const data = await res.json();
-        setTraining(data);
-      }
-    } catch (err) {
-      console.error("Error fetching training status:", err);
-    }
-  };
 
   const showToast = (msg: string) => {
     setToast(msg);
@@ -363,17 +317,6 @@ export default function App() {
     }
   };
 
-  const triggerTraining = async () => {
-    try {
-      const res = await fetch(`${backendUrl}/api/train`, { method: "POST" });
-      if (res.ok) {
-        showToast("Training job dispatched!");
-        fetchTrainingStatus();
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const loadDemo = (demo: typeof demos[0]) => {
     setUserStory(demo.story);
@@ -554,43 +497,6 @@ export default function App() {
     runNextStep();
   };
 
-  // Dynamic Fine-Tuning Execution Simulator
-  const startFineTuningSimulation = () => {
-    if (localTrainingActive) return;
-    setLocalTrainingActive(true);
-    setLocalTrainingLogs([]);
-
-    // Call triggerTraining to run backend training in parallel and satisfy TS
-    triggerTraining();
-
-    const steps = [
-      "🔄 Initializing training runtime on backend uvicorn engine...",
-      "📂 Loading and validating dataset (dataset.json) - 12 examples parsed...",
-      "🧠 Tokenizing prompt inputs and target BDD label mappings...",
-      "🤖 Booting HuggingFace Seq2Seq Trainer (Transformers v4.38)...",
-      "📦 Loaded base model weights: google/flan-t5-small (77M parameters)",
-      "📊 Starting Training Epochs (Batch size = 2, LR = 5e-5)...",
-      "📈 [Epoch 1/5] Loss: 2.1450 - Validation Loss: 1.8540 - Accuracy: 68.2%",
-      "📈 [Epoch 2/5] Loss: 1.1520 - Validation Loss: 0.9850 - Accuracy: 78.5%",
-      "📈 [Epoch 3/5] Loss: 0.4560 - Validation Loss: 0.3920 - Accuracy: 84.9%",
-      "📈 [Epoch 4/5] Loss: 0.1840 - Validation Loss: 0.1620 - Accuracy: 91.4%",
-      "📈 [Epoch 5/5] Loss: 0.0820 - Validation Loss: 0.0750 - Accuracy: 93.8%",
-      "💾 Saving trained checkpoints to directory: /fine_tuned_model/",
-      "🎉 Model fine-tuning completed successfully! Local weight paths loaded."
-    ];
-
-    let current = 0;
-    const interval = setInterval(() => {
-      if (current < steps.length) {
-        setLocalTrainingLogs(prev => [...prev, steps[current]]);
-        current++;
-      } else {
-        clearInterval(interval);
-        setLocalTrainingActive(false);
-        showToast("Model trained! You can now choose 'Local Fine-Tuned Model' in Workspace.");
-      }
-    }, 450);
-  };
 
   // Playwright Test Runner Simulator (Parallel workers logs)
   const startSimulation = () => {
@@ -787,12 +693,6 @@ export default function App() {
             onClick={() => setActiveTab('dataset')}
           >
             🗂️ Dataset Manager ({dataset.length})
-          </button>
-          <button 
-            className={`btn ${activeTab === 'train' ? 'btn-primary' : 'btn-secondary'}`}
-            onClick={() => setActiveTab('train')}
-          >
-            ⚙️ AI Training Studio
           </button>
         </div>
       </header>
@@ -1821,102 +1721,6 @@ jobs:
         </div>
       )}
 
-      {/* AI Training view (Never blank, complete with hyperparameter settings & live animated log runner) */}
-      {activeTab === 'train' && (
-        <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <div>
-            <h2 style={{ fontSize: '20px', marginBottom: '4px' }}>HuggingFace Transformer Training Room</h2>
-            <p style={{ color: 'hsl(var(--text-muted))', fontSize: '14px' }}>
-              Configure model parameters and trigger local PyTorch Seq2Seq fine-tuning loops.
-            </p>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '24px' }}>
-            {/* Parameters Settings */}
-            <div className="glass-panel" style={{ background: 'rgba(0,0,0,0.15)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 700 }}>Hyperparameter Configurations</h3>
-              
-              <div className="form-group">
-                <label className="form-label">Base Architecture</label>
-                <select className="form-select" value={hyperModel} onChange={(e) => setHyperModel(e.target.value)}>
-                  <option value="Flan-T5-Small (80M params)">google/flan-t5-small (Pre-trained)</option>
-                  <option value="T5-Small (60M params)">t5-small (Raw)</option>
-                </select>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div className="form-group">
-                  <label className="form-label">Num Epochs</label>
-                  <input type="number" className="form-input" value={hyperEpochs} onChange={(e) => setHyperEpochs(parseInt(e.target.value))} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Batch Size</label>
-                  <input type="number" className="form-input" value={hyperBatchSize} onChange={(e) => setHyperBatchSize(parseInt(e.target.value))} />
-                </div>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                <div className="form-group">
-                  <label className="form-label">Learning Rate</label>
-                  <input type="text" className="form-input" value={hyperLr} onChange={(e) => setHyperLr(e.target.value)} />
-                </div>
-                <div className="form-group">
-                  <label className="form-label">Optimizer</label>
-                  <select className="form-select" value={hyperOptimizer} onChange={(e) => setHyperOptimizer(e.target.value)}>
-                    <option value="AdamW">AdamW</option>
-                    <option value="SGD">SGD</option>
-                    <option value="Adam">Adam</option>
-                  </select>
-                </div>
-              </div>
-
-              <button 
-                className="btn btn-primary" 
-                onClick={startFineTuningSimulation} 
-                disabled={localTrainingActive}
-              >
-                {localTrainingActive ? 'Fine-Tuning Running...' : 'Start Local Model Fine-Tuning'}
-              </button>
-            </div>
-
-            {/* Simulated Live Logs Console */}
-            <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                  <h3 style={{ fontSize: '16px', fontWeight: 700 }}>Training Progress Output Logs</h3>
-                  <span style={{ fontSize: '11px', color: 'hsl(var(--text-muted))' }}>* Simulated training output for showcase</span>
-                </div>
-                <span className={`badge ${localTrainingActive || (training && training.status === 'training') ? 'badge-input' : 'badge-generic'}`}>
-                  Runner: {localTrainingActive || (training && training.status === 'training') ? 'TRAINING' : 'IDLE'}
-                </span>
-              </div>
-
-              <div className="console-output" style={{ minHeight: '300px', maxHeight: '350px' }}>
-                {localTrainingLogs.length === 0 && (!training || training.logs.length === 0) ? (
-                  <div style={{ color: 'hsl(var(--text-muted))', margin: 'auto', padding: '80px 0', textAlign: 'center' }}>
-                    Console idle. Adjust hyperparameters and click 'Start Local Model Fine-Tuning' to run.
-                  </div>
-                ) : (
-                  [...(training?.logs || []), ...localTrainingLogs].map((log, idx) => {
-                    if (!log) return null;
-                    let className = "console-line info";
-                    if (log.toLowerCase().includes("completed") || log.toLowerCase().includes("saved")) {
-                      className = "console-line success";
-                    } else if (log.toLowerCase().includes("epoch")) {
-                      className = "console-line success";
-                    }
-                    return (
-                      <div key={idx} className={className}>
-                        &gt; {log}
-                      </div>
-                    );
-                  })
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Export Confirmation Modal */}
       {showExportModal && (
