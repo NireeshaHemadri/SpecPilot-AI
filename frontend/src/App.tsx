@@ -1171,9 +1171,6 @@ jobs:
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '13px', color: 'hsl(var(--success))', fontWeight: 'bold' }}>🎉 Pipeline successfully executed all tests.</span>
-                    <button className="code-btn" style={{ fontSize: '12px', textDecoration: 'underline' }} onClick={() => alert("Downloading playwright-report.zip trace report...")}>
-                      📥 Download CI Report (playwright-report.zip)
-                    </button>
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.05)', paddingTop: '12px', fontSize: '13px' }}>
                     <div>
